@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=.\SQLEXPRESS;Database=AnswersDB;Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
