@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EstebanJimenezEFP6API.Models;
 using EstebanJimenezEFP6API.ModelsDTOs;
+using System.Reflection.PortableExecutable;
 
 namespace EstebanJimenezEFP6API.Controllers
 {
@@ -50,22 +51,29 @@ namespace EstebanJimenezEFP6API.Controllers
             return ask;
         }
         [HttpGet("GetInfoByAsk")]
-        public ActionResult<IEnumerable<AskDTO>> GetInfoByAsk(string Pask)
+        public ActionResult<IEnumerable<AskDTO>> GetInfoByAsk(string Pask1)
         {
             //acá creamos un linq que combina información de dos entidades 
             //(user inner join userrole) y la agreaga en el objeto dto de usuario 
 
             var query = (from u in _context.Asks
+                         join ur in _context.AskStatuses on
+            u.AskStatusId equals ur.AskStatusId
+                         where u.Ask1 == Pask1 && u.IsStrike == true 
+
                          select new
                          {
-                             idPregunta = u.AskId,
+                             IdPregunta = u.UserId,
                              fecha = u.Date,
                              pregunta = u.Ask1,
                              idUsuario = u.UserId,
-                             IdEstadoPregunta = u.AskStatusId,
                              activo = u.IsStrike,
-                             URLimagen = u.ImageUrl,
-                             detallePregunta = u.AskDetail
+                             ulrImagen = u.ImageUrl,
+                             detallePregunta = u.AskDetail,
+                             idrol = ur.AskStatusId,
+                             estadoPreguunta = ur.AskStatus1
+                            
+                             
                          }).ToList();
 
             //creamos un objeto del tipo que retorna la función 
@@ -75,14 +83,14 @@ namespace EstebanJimenezEFP6API.Controllers
             {
                 AskDTO NewItem = new AskDTO()
                 {
-                    IdPregunta = item.idPregunta,
+                    IdPregunta = item.IdPregunta,
                     fecha = item.fecha,
-                    pregunta = item.pregunta,
                     idusuario = item.idUsuario,
-                    idEstadoPregunta = item.IdEstadoPregunta,
                     activo = item.activo,
-                    urlUmagen = item.URLimagen,
-                    detallePregunta = item.detallePregunta
+                    urlUmagen = item.ulrImagen,
+                    detallePregunta = item.detallePregunta,
+                    idEstadoPregunta = item.idrol,
+                    estadoPregunta = item.estadoPreguunta
                 };
 
                 list.Add(NewItem);
@@ -110,7 +118,6 @@ namespace EstebanJimenezEFP6API.Controllers
                 NewEFAsk.Date = ask.fecha;
                 NewEFAsk.Ask1 = ask.pregunta;
                 NewEFAsk.UserId = ask.idusuario;
-                NewEFAsk.AskStatusId = ask.idEstadoPregunta;
                 NewEFAsk.ImageUrl = ask.urlUmagen;
                 NewEFAsk.AskDetail = ask.detallePregunta;
 

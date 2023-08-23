@@ -10,6 +10,7 @@
         public bool? activo { get; set; }
         public string? urlUmagen { get; set; }
         public string? detallePregunta { get; set; }
+        public string estadoPregunta { get; set; } = null!;
 
     }
 }
