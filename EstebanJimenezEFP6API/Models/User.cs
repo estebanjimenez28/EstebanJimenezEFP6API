@@ -27,9 +27,9 @@ namespace EstebanJimenezEFP6API.Models
         public int CountryId { get; set; }
         public int UserRoleId { get; set; }
 
-        public virtual Country Country { get; set; } = null!;
-        public virtual UserRole UserRole { get; set; } = null!;
-        public virtual UserStatus UserStatus { get; set; } = null!;
+        public virtual Country? Country { get; set; } = null!;
+        public virtual UserRole? UserRole { get; set; } = null!;
+        public virtual UserStatus? UserStatus { get; set; } = null!;
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<Ask> Asks { get; set; }
         public virtual ICollection<Chat> ChatReceivers { get; set; }

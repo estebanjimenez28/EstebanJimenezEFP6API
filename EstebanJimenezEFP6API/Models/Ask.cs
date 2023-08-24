@@ -20,7 +20,7 @@ namespace EstebanJimenezEFP6API.Models
         public string? AskDetail { get; set; }
 
         public virtual AskStatus? AskStatus { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
+        public virtual User? User { get; set; } = null!;
         public virtual ICollection<Answer> Answers { get; set; }
     }
 }

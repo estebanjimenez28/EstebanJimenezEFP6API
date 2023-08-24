@@ -101,6 +101,25 @@ namespace EstebanJimenezEFP6API.Controllers
             return list;
 
         }
+        //GET: api/Protocols/GetProtocolListByUser?id=4
+        //Pensando en colecciones observables esta función podría entregar un enumerable
+        //(obviamente usamos su interface)
+        [HttpGet("GetAskListByUser")]
+        public async Task<ActionResult<IEnumerable<Ask>>> GetAskListByUser(int id)
+        {
+            if (_context.Asks == null)
+            {
+                return NotFound();
+            }
+            var askList = await _context.Asks.Where(p => p.UserId.Equals(id)).ToListAsync();
+
+            if (askList == null)
+            {
+                return NotFound();
+            }
+
+            return askList;
+        }
 
         // PUT: api/Asks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
